@@ -51,7 +51,7 @@ class DataValidator:
         """Detect potential spam leads."""
         spam_keywords = [
             'viagra', 'casino', 'lottery', 'bitcoin', 'crypto', 'forex',
-            'dating', 'adult', 'xxx', 'spam', 'test', 'example'
+            'dating', 'adult', 'xxx', 'spam'
         ]
         
         text = (email or '') + ' ' + (company or '')
@@ -122,6 +122,9 @@ class DeduplicateManager:
     def __init__(self):
         """Initialize deduplication manager."""
         self.seen = set()
+        self.seen_emails = set()
+        self.seen_phones = set()
+        self.seen_companies = set()
     
     def add_fingerprint(self, email: str = '', phone: str = '', company: str = '') -> str:
         """
@@ -149,20 +152,36 @@ class DeduplicateManager:
         Returns:
             True if duplicate, False otherwise
         """
-        fingerprint = self.add_fingerprint(email, phone, company)
+        email_key = email.lower().strip() if email else ''
+        phone_key = re.sub(r'\D', '', phone) if phone else ''
+        company_key = company.lower().strip() if company else ''
+        fingerprint = self.add_fingerprint(email_key, phone_key, company_key)
         
         if not fingerprint:
             return False
         
-        if fingerprint in self.seen:
+        if (
+            (email_key and email_key in self.seen_emails) or
+            (phone_key and phone_key in self.seen_phones) or
+            (company_key and company_key in self.seen_companies)
+        ):
             return True
         
         self.seen.add(fingerprint)
+        if email_key:
+            self.seen_emails.add(email_key)
+        if phone_key:
+            self.seen_phones.add(phone_key)
+        if company_key:
+            self.seen_companies.add(company_key)
         return False
     
     def clear(self) -> None:
         """Clear the deduplication cache."""
         self.seen.clear()
+        self.seen_emails.clear()
+        self.seen_phones.clear()
+        self.seen_companies.clear()
     
     def get_count(self) -> int:
         """Get count of unique leads seen."""
