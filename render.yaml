@@ -1,7 +1,7 @@
 services:
   - type: worker
     name: lead-gen-engine-bot
-    env: python
+    env: python-3.12
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: python bot.py
