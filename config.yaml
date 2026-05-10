@@ -1,0 +1,148 @@
+# Lead Scraping System Configuration
+
+# Niches to target
+niches:
+  - name: "Tech Startups"
+    keywords:
+      - "web developer"
+      - "software engineer"
+      - "full stack developer"
+      - "react developer"
+      - "node.js developer"
+      - "python programmer"
+      - "hiring developer"
+      - "contract developer"
+      - "freelance developer"
+      - "remote developer"
+  
+  - name: "HVAC Services"
+    keywords:
+      - "AC repair"
+      - "furnace service"
+      - "HVAC repair"
+      - "emergency HVAC"
+      - "AC not cooling"
+      - "furnace making noise"
+      - "no heat"
+      - "ductwork"
+      - "AC installation"
+      - "heating service"
+  
+  - name: "Web Development"
+    keywords:
+      - "web development"
+      - "website design"
+      - "web design company"
+      - "seo services"
+      - "digital marketing"
+      - "website development"
+
+# Social Media Platforms
+platforms:
+  - name: "linkedin"
+    enabled: true
+    search_keywords:
+      - "hiring"
+      - "looking for"
+      - "need developer"
+      - "we're recruiting"
+  
+  - name: "facebook"
+    enabled: true
+    search_groups: true
+    community_search: true
+  
+  - name: "twitter"
+    enabled: true
+    search_keywords:
+      - "#hiring"
+      - "#nowhiring"
+      - "#jobs"
+      - "we're hiring"
+  
+  - name: "web"
+    enabled: true
+    search_engines:
+      - "google"
+
+  - name: "instagram"
+    enabled: true
+    hashtags:
+      - "hiring"
+      - "jobs"
+      - "startup"
+      - "freelance"
+      - "webdevelopment"
+    max_posts: 30
+    filter_by_region: true
+
+# Optional region targeting / session filter
+regions:
+  - "Africa"
+  - "Nigeria"
+  - "U.S."
+  - "U.A.E."
+  - "U.K."
+region_filter: []
+
+# Time-based filtering (in days)
+time_filters:
+  max_age_days: 7  # Include posts from last 7 days
+  min_age_minutes: 0  # Minimum age (0 = all recent)
+
+# Extraction settings
+extraction:
+  extract_emails: true
+  extract_phones: true
+  extract_company_names: true
+  extract_social_profiles: true
+  extract_post_links: true
+  validate_emails: true
+  validate_phones: true
+
+# Telegram bot defaults
+bot:
+  default_platforms:
+    - "web"
+    - "linkedin"
+    - "facebook"
+    - "twitter"
+    - "instagram"
+  default_amount: 50
+  default_region: ""
+
+# Deduplication
+deduplication:
+  enabled: true
+  duplicate_check_fields:
+    - "email"
+    - "phone"
+    - "company_name"
+
+# Scheduling
+scheduler:
+  enabled: false
+  frequency_hours: 24  # Run every 24 hours
+  start_time: "08:00"  # Start at 8 AM
+
+# Output
+output:
+  format: "csv"
+  output_dir: "data"
+  filename_pattern: "leads_{timestamp}.csv"
+  dedup_history: "data/leads_history.csv"
+  search_limit: 15
+
+# Human-like behavior
+human_behavior:
+  use_random_delays: true
+  min_delay_seconds: 2
+  max_delay_seconds: 8
+  use_proxies: true
+  rotate_user_agents: true
+  
+# Logging
+logging:
+  level: "INFO"
+  log_file: "scraper.log"
+  console_output: true
